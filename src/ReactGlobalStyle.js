@@ -24,13 +24,13 @@ export const getEd = (element = document.body) => {
     classCounts.set(key, classCounts.get(key) - 1);
   };
 
-  const addStyleLevel = (key, value, element = document.body) => {
+  const addStyleLevel = (key, value) => {
     if (styleLevels.has(key)) {
       styleLevels.set(key, styleLevels.get(key).concat([value]));
     }
     else {
       const items = [value];
-      if (element.style[key]) items.unshfit(element.style[key]);
+      if (element.style[key]) items.unshift(element.style[key]);
       styleLevels.set(key, items);
     }
   }
@@ -41,9 +41,6 @@ export const getEd = (element = document.body) => {
       const newStyles = styles.slice(0, -1);
 
       styleLevels.set(key, newStyles);
-    }
-    else {
-      console.warn(`ReactGlobalStyle: tried to remove style level when none existed. This is a bug, please report it`);
     }
   }
 

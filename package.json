@@ -1,9 +1,14 @@
 {
   "name": "react-global-style",
+  "description": "Set global styles (e.g. on `document.body`) declaratively.",
   "version": "0.0.0",
   "main": "index.js",
   "author": "Frankie Bagnardi <f.bagnardi@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "babel src/ --out-dir lib/ --ignore src/__tests__",
+    "prepublish": "npm run build"
+  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",

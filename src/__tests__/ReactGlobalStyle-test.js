@@ -63,12 +63,36 @@ describe(`styleLevels`, () => {
       [`width`, [`5px`]],
     ]);
   });
+
+  it(`works with existing styles`, () => {
+    document.body.style.color = 'red';
+    const ed = setup();
+    ed.addStyleLevel('color', 'green');
+    expect([...ed.styleLevels]).toEqual([
+      ['color', ['red', 'green']],
+    ]);
+    document.body.style.color = '';
+  });
 });
 
 
 describe(`ReactGlobalStyle`, () => {
   it(`doesn't error`, () => {
     mount(<ReactGlobalStyle />);
+  });
+
+  it(`works with selector`, () => {
+    const el = document.createElement('div');
+    el.className = `lk2j5rlkajs1ldakjs`;
+    document.body.appendChild(el);
+    const w = mount(<ReactGlobalStyle el={`.${el.className}`} />);
+    expect(w.instance().el()).toBe(el);
+  });
+
+  it(`className list`, () => {
+    const el = document.createElement('div');
+    const w = mount(<ReactGlobalStyle className={[`foo`]} el={el} />);
+    expect(el.className).toBe(`foo`);
   });
 
   it(`className adds`, () => {
