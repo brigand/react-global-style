@@ -66,10 +66,61 @@ export const reset = () => {
   ed = new WeakMap()
 };
 
+const splitClasses = (classes) => {
+  if (!classes) return [];
+  if (Array.isArray(classes)) return classes.filter(Boolean);
+  return classes.split(/\s+/g).filter(Boolean);
+}
+
 export default class ReactGlobalStyle extends React.Component {
-  update(style, oldStyle) {
+  el() {
+    let el = document.body;
+    if (typeof this.props.el === 'string') {
+      el = document.querySelector(this.props.el);
+    }
+    if (typeof this.props.el === 'object' && this.props.el) {
+      el = this.props.el;
+    }
+    return el;
+  }
+  ed() {
+    return getEd(this.el());
+  }
+  updateClasses(classes, oldClasses) {
+    classes.forEach((a) => {
+      if (oldClasses.indexOf(a) === -1) {
+        this.ed().incrClassCount(a);
+        this.el().classList.add(a);
+      }
+    });
+
+    oldClasses.forEach((b) => {
+      if (classes.indexOf(b) === -1) {
+        this.ed().decrClassCount(b);
+        if (!this.ed().classCounts.get(b)) {
+          this.el().classList.remove(b);
+        }
+      }
+    });
+  }
+  updateStyles(style, oldStyle) {
+    if (!style) style = {};
+    if (!oldStyle) style = {};
   }
   componentDidMount() {
+    this.updateClasses(splitClasses(this.props.className), []);
+    this.updateStyles(this.props.style, {});
+  }
+  componentWillReceiveProps(nextProps) {
+    this.updateClasses(
+      splitClasses(nextProps.className),
+      splitClasses(this.props.className)
+    );
+    this.updateStyles(nextProps.style, this.props.style);
+  }
+  componentWillUnmount() {
+    this.updateClasses([], splitClasses(this.props.className));
+    this.updateStyles({}, this.props.style);
   }
   render() { return null; }
 }
