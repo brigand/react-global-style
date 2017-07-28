@@ -1,4 +1,6 @@
 
+[![Build Status](https://travis-ci.org/brigand/react-global-style.svg?branch=master)](https://travis-ci.org/brigand/react-global-style)
+
 Set global styles (e.g. on `document.body`) declaratively.
 
 It's smart enough to not remove class names added in mutlipe places, and to maintain a stack of values for a given style property.
@@ -24,3 +26,25 @@ import ReactGlobalStyle from 'react-global-style';
 // COMING SOON: style support
 <ReactGlobalStyle style={{color: 'black'}} />
 ```
+
+## Contributing
+
+Any help is appreciated! For big changes, file an issue before sending a pull request.
+
+To run the project:
+
+```sh
+yarn # or npm install
+
+# Single test run
+./node_modules/.bin/jest --coverage
+
+# Tests in watch mode
+./node_modules/.bin/jest --watch --coverage
+```
+
+Make your changes, and then send a pull request. Please keep coverage at 100%.
+
+If you want to test it in a real project, `npm run build` creates the `lib` directory. Then you can `npm link` this into your project.
+
+
