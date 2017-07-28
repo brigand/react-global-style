@@ -10,7 +10,6 @@
     "prepublish": "npm run build",
     "test": "jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
-
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
