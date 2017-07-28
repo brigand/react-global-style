@@ -48,3 +48,4 @@ Make your changes, and then send a pull request. Please keep coverage at 100%.
 If you want to test it in a real project, `npm run build` creates the `lib` directory. Then you can `npm link` this into your project.
 
 
+<!-- -->
