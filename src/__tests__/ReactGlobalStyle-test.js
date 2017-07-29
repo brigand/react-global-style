@@ -132,7 +132,7 @@ describe(`ReactGlobalStyle`, () => {
     expect(el.style.color).toBe(`red`);
     w.setProps({el, style: {}});
     expect(el.style.color).toBe(``);
-    w.setProps({el});
+    w.setProps({el, style: undefined});
     expect(el.style.color).toBe(``);
   });
 
@@ -141,8 +141,7 @@ describe(`ReactGlobalStyle`, () => {
     const w = mount(<ReactGlobalStyle style={{color: `red`}} el={el} />);
     const w2 = mount(<ReactGlobalStyle style={{color: `blue`}} el={el} />);
     expect(el.style.color).toBe('blue');
-    // w2.setProps({el, style: {}});
-    w2.setProps({el});
+    w2.setProps({el, style: undefined});
     expect(el.style.color).toBe('red');
   });
 
