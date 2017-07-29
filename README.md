@@ -40,10 +40,10 @@ To run the project:
 yarn # or npm install
 
 # Single test run
-./node_modules/.bin/jest --coverage
+npm run test
 
 # Tests in watch mode
-./node_modules/.bin/jest --watch --coverage
+npm run test -- --watch
 ```
 
 Make your changes, and then send a pull request. Please keep coverage at 100%.
