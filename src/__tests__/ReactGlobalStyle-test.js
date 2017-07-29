@@ -126,6 +126,43 @@ describe(`ReactGlobalStyle`, () => {
     expect(el.className).toBe(`bar quux`);
   });
 
+  it(`sets and removes styles`, () => {
+    const el = document.createElement('div');
+    const w = mount(<ReactGlobalStyle style={{color: `red`}} el={el} />);
+    expect(el.style.color).toBe(`red`);
+    w.setProps({el, style: {}});
+    expect(el.style.color).toBe(``);
+    w.setProps({el});
+    expect(el.style.color).toBe(``);
+  });
+
+  it(`resets to previous styles`, () => {
+    const el = document.createElement('div');
+    const w = mount(<ReactGlobalStyle style={{color: `red`}} el={el} />);
+    const w2 = mount(<ReactGlobalStyle style={{color: `blue`}} el={el} />);
+    expect(el.style.color).toBe('blue');
+    // w2.setProps({el, style: {}});
+    w2.setProps({el});
+    expect(el.style.color).toBe('red');
+  });
+
+  it(`style barage of changes`, () => {
+    const el = document.createElement('div');
+    const w = mount(<ReactGlobalStyle style={{color: `red`}} el={el} />);
+    w.setProps({el, style: {color: 'blue'}});
+    w.setProps({el, style: {width: '5em'}});
+    w.setProps({el, style: {width: '5em'}});
+    w.setProps({el, style: {}});
+    expect(el.style.color).toBe('');
+    expect(el.style.color).toBe('');
+  });
+
+  it(`unmount`, () => {
+    const el = document.createElement('div');
+    const w = mount(<ReactGlobalStyle clasName="foo" style={{color: `red`}} el={el} />);
+
+    w.unmount();
+    expect(el.className).toBe('');
+    expect(el.style.color).toBe('');
+  });
 });
-
-

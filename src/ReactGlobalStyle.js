@@ -102,7 +102,30 @@ export default class ReactGlobalStyle extends React.Component {
   }
   updateStyles(style, oldStyle) {
     if (!style) style = {};
-    if (!oldStyle) style = {};
+    if (!oldStyle) oldStyle = {};
+    const el = this.el();
+    const ed = this.ed();
+
+    Object.keys(style).forEach((a) => {
+      // Check if this is a new style
+      if (!oldStyle[a] && oldStyle[a] !== 0) {
+        ed.addStyleLevel(a, style[a]);
+        el.style[a] = style[a];
+      }
+    });
+
+    Object.keys(oldStyle).forEach((b) => {
+      // Remove the style by peeling back a layer
+      if (!style[b] && style[b] !== 0) {
+        ed.removeStyleLevel(b);
+        const levels = ed.styleLevels.get(b);
+        if (levels && levels.length) {
+          el.style[b] = levels[levels.length - 1];
+        } else {
+          el.style[b] = '';
+        }
+      }
+    });
   }
   componentDidMount() {
     this.updateClasses(splitClasses(this.props.className), []);

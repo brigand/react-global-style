@@ -23,7 +23,10 @@ import ReactGlobalStyle from 'react-global-style';
 // `el` can be a selector
 <ReactGlobalStyle className="foo" el="#app-root" />
 
-// COMING SOON: style support
+// className can be an array
+<ReactGlobalStyle className={['foo', 'bar']} />
+
+// `style` is also supported
 <ReactGlobalStyle style={{color: 'black'}} />
 ```
 
