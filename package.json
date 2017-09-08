@@ -1,7 +1,7 @@
 {
   "name": "react-global-style",
   "description": "Set global styles (e.g. on `document.body`) declaratively.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "lib/ReactGlobalStyle.js",
   "author": "Frankie Bagnardi <f.bagnardi@gmail.com>",
   "license": "MIT",
