@@ -26,5 +26,16 @@
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brigand/react-global-style.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brigand/react-global-style/issues"
+  },
+  "homepage": "https://github.com/brigand/react-global-style#readme"
 }
