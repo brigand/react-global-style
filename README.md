@@ -12,6 +12,10 @@ It's smart enough to not remove class names added in mutlipe places, and to main
 npm install --save react-global-style
 ```
 
+You may need a polyfill for the ES6 features `Map` and `WeakMap`. These are included in [babel-polyfill], which many apps already use.
+
+[babel-polyfill]: https://babeljs.io/docs/usage/polyfill/
+
 ## Usage
 
 ```jsx
