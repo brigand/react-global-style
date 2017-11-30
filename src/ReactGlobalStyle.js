@@ -1,46 +1,44 @@
 const React = require('react');
 
 // ed = elementData, we use getEd a lot
-// WeakMap for edge cases where many elements are targeted
-// Not a big deal if it's shimmed as Map
-export let ed = new WeakMap();
+export let ed = {};
 export const getEd = (element = document.body) => {
-  if (ed.has(element)) {
-    return ed.get(element);
+  if (ed[element] !== undefined) {
+    return ed[element];
   }
 
-  const classCounts = new Map();
-  const styleLevels = new Map();
+  const classCounts = {};
+  const styleLevels = {};
 
   const incrClassCount = (key) => {
-    if (classCounts.has(key)) {
-      classCounts.set(key, classCounts.get(key) + 1);
+    if (classCounts[key] !== undefined) {
+      classCounts[key] = classCounts[key] + 1;
     } else {
-      classCounts.set(key, 1);
+      classCounts[key] = 1;
     }
   };
 
   const decrClassCount = (key) => {
-    classCounts.set(key, classCounts.get(key) - 1);
+    classCounts[key] = classCounts[key] - 1;
   };
 
   const addStyleLevel = (key, value) => {
-    if (styleLevels.has(key)) {
-      styleLevels.set(key, styleLevels.get(key).concat([value]));
-    }
+    if (styleLevels[key] !== undefined) {
+      styleLevels[key] = styleLevels[key].concat([value]);
+    } 
     else {
       const items = [value];
       if (element.style[key]) items.unshift(element.style[key]);
-      styleLevels.set(key, items);
+      styleLevels[key] = items;
     }
   }
 
   const removeStyleLevel = (key, value) => {
-    if (styleLevels.has(key)) {
-      const styles = styleLevels.get(key);
+    if (styleLevels[key] !== undefined) {
+      const styles = styleLevels[key];
       const newStyles = styles.slice(0, -1);
 
-      styleLevels.set(key, newStyles);
+      styleLevels[key] = newStyles;
     }
   }
 
@@ -54,13 +52,13 @@ export const getEd = (element = document.body) => {
     addStyleLevel,
     removeStyleLevel,
   };
-  ed.set(element, data);
+  ed[element] = data;
   return data;
 };
 
 // Private. Used for the unit tests.
 export const reset = () => {
-  ed = new WeakMap()
+  ed = {};
 };
 
 const splitClasses = (classes) => {
@@ -94,7 +92,7 @@ export default class ReactGlobalStyle extends React.Component {
     oldClasses.forEach((b) => {
       if (classes.indexOf(b) === -1) {
         this.ed().decrClassCount(b);
-        if (!this.ed().classCounts.get(b)) {
+        if (!this.ed().classCounts[b]) {
           this.el().classList.remove(b);
         }
       }
@@ -118,7 +116,7 @@ export default class ReactGlobalStyle extends React.Component {
       // Remove the style by peeling back a layer
       if (!style[b] && style[b] !== 0) {
         ed.removeStyleLevel(b);
-        const levels = ed.styleLevels.get(b);
+        const levels = ed.styleLevels[b];
         if (levels && levels.length) {
           el.style[b] = levels[levels.length - 1];
         } else {
@@ -128,6 +126,7 @@ export default class ReactGlobalStyle extends React.Component {
     });
   }
   componentDidMount() {
+    reset();
     this.updateClasses(splitClasses(this.props.className), []);
     this.updateStyles(this.props.style, {});
   }
@@ -144,4 +143,3 @@ export default class ReactGlobalStyle extends React.Component {
   }
   render() { return null; }
 }
-

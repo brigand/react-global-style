@@ -18,16 +18,16 @@ const setup = () => {
 describe(`classCounts`, () => {
   it(`works for first run`, () => {
     const ed = setup();
-    expect([...ed.classCounts]).toEqual([]);
+    expect(ed.classCounts).toEqual({});
     ed.incrClassCount(`foo`);
-    expect([...ed.classCounts]).toEqual([[`foo`, 1]]);
+    expect(ed.classCounts).toEqual({ foo: 1 });
   });
 
   it(`works for second run`, () => {
     const ed = setup();
     ed.incrClassCount(`foo`);
     ed.incrClassCount(`foo`);
-    expect([...ed.classCounts]).toEqual([[`foo`, 2]]);
+    expect(ed.classCounts).toEqual({ foo:  2 });
   });
 
   it(`removes`, () => {
@@ -35,42 +35,42 @@ describe(`classCounts`, () => {
     ed.incrClassCount(`foo`);
     ed.incrClassCount(`foo`);
     ed.decrClassCount(`foo`);
-    expect([...ed.classCounts]).toEqual([[`foo`, 1]]);
+    expect(ed.classCounts).toEqual({ foo: 1 });
   });
 });
 
 describe(`styleLevels`, () => {
   it(`works for first run`, () => {
     const ed = setup();
-    expect([...ed.styleLevels]).toEqual([]);
+    expect(ed.styleLevels).toEqual({});
     ed.addStyleLevel(`color`, `red`);
-    expect([...ed.styleLevels]).toEqual([[`color`, [`red`]]]);
+    expect(ed.styleLevels).toEqual({ color: [`red`] });
   });
 
   it(`works for multiple levels`, () => {
     const ed = setup();
-    expect([...ed.styleLevels]).toEqual([]);
+    expect(ed.styleLevels).toEqual({});
     ed.addStyleLevel(`color`, `red`);
     ed.addStyleLevel(`width`, `5px`);
     ed.addStyleLevel(`color`, `blue`);
-    expect([...ed.styleLevels]).toEqual([
-      [`color`, [`red`, `blue`]],
-      [`width`, [`5px`]],
-    ]);
+    expect(ed.styleLevels).toEqual({
+      color: [`red`, `blue`],
+      width: [`5px`],
+    });
     ed.removeStyleLevel(`color`);
-    expect([...ed.styleLevels]).toEqual([
-      [`color`, [`red`]],
-      [`width`, [`5px`]],
-    ]);
+    expect(ed.styleLevels).toEqual({
+      color: [`red`],
+      width: [`5px`],
+    });
   });
 
   it(`works with existing styles`, () => {
     document.body.style.color = 'red';
     const ed = setup();
     ed.addStyleLevel('color', 'green');
-    expect([...ed.styleLevels]).toEqual([
-      ['color', ['red', 'green']],
-    ]);
+    expect(ed.styleLevels).toEqual({
+      'color': ['red', 'green'],
+    });
     document.body.style.color = '';
   });
 });
