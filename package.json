@@ -37,5 +37,11 @@
   "bugs": {
     "url": "https://github.com/brigand/react-global-style/issues"
   },
-  "homepage": "https://github.com/brigand/react-global-style#readme"
+  "homepage": "https://github.com/brigand/react-global-style#readme",
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*",
+      "!src/WeakMap.js"
+    ]
+  }
 }

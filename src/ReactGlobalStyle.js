@@ -1,10 +1,15 @@
 const React = require('react');
 
+// polyfill WeakMap if it's not defined.
+require('./WeakMap');
+
 // ed = elementData, we use getEd a lot
-export let ed = {};
+// WeakMap for edge cases where many elements are targeted
+// Not a big deal if it's shimmed as Map
+export let ed = new WeakMap();
 export const getEd = (element = document.body) => {
-  if (ed[element] !== undefined) {
-    return ed[element];
+  if (ed.has(element)) {
+    return ed.get(element);
   }
 
   const classCounts = {};
@@ -52,13 +57,13 @@ export const getEd = (element = document.body) => {
     addStyleLevel,
     removeStyleLevel,
   };
-  ed[element] = data;
+  ed.set(element, data);
   return data;
 };
 
 // Private. Used for the unit tests.
 export const reset = () => {
-  ed = {};
+  ed = new WeakMap()
 };
 
 const splitClasses = (classes) => {
@@ -126,7 +131,6 @@ export default class ReactGlobalStyle extends React.Component {
     });
   }
   componentDidMount() {
-    reset();
     this.updateClasses(splitClasses(this.props.className), []);
     this.updateStyles(this.props.style, {});
   }
